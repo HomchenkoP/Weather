@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 
 import ru.geekbrains.kotlin.R
+import ru.geekbrains.kotlin.databinding.MainFragmentBinding
 import ru.geekbrains.kotlin.viewmodel.AppState
 import ru.geekbrains.kotlin.viewmodel.MainViewModel
 
@@ -19,11 +20,18 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
+    private var _binding: MainFragmentBinding? = null
+    private val binding
+       // геттер переменной binding
+       get(): MainFragmentBinding = _binding!!
+
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        //return inflater.inflate(R.layout.main_fragment, container, false)
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -53,5 +61,10 @@ class MainFragment : Fragment() {
                 //viewModel.getWeather()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
