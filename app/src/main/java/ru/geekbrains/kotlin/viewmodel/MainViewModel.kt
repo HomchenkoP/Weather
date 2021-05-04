@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
 
+import ru.geekbrains.kotlin.model.LoadingException
 import ru.geekbrains.kotlin.model.Repository
 import ru.geekbrains.kotlin.model.RepositoryImpl
 
@@ -25,8 +26,18 @@ class MainViewModel(
         liveDataToObserve.value = AppState.Loading
         // имитация запроса к БД
         Thread {
-            sleep(3000)
-            liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorage()))
+            // три попытки
+            for (tryCnt in 1..3) {
+                liveDataToObserve.postValue(AppState.Loading)
+                sleep(3000)
+                try {
+                    liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorage()))
+                    break
+                } catch (e: LoadingException) {
+                    liveDataToObserve.postValue(AppState.Error(e))
+                    sleep(1000)
+                }
+            }
         }.start()
     }
 }

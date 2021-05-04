@@ -52,7 +52,7 @@ class MainFragment : Fragment() {
         when (appState) {
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE // отображаем прогрессбар
-                Toast.makeText(context, "Загрузка данных.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Загрузка данных.", Toast.LENGTH_SHORT).show()
             }
             is AppState.Success -> {
                 binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
@@ -62,7 +62,7 @@ class MainFragment : Fragment() {
             }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
-                Toast.makeText(context, "Сбой при загрузке данных.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Сбой при загрузке данных.", Toast.LENGTH_SHORT).show()
                 //viewModel.getWeather()
             }
         }
