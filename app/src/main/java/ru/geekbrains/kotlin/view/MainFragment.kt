@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import ru.geekbrains.kotlin.R
 
 import ru.geekbrains.kotlin.databinding.MainFragmentBinding
 import ru.geekbrains.kotlin.model.Weather
@@ -69,7 +70,7 @@ class MainFragment : Fragment() {
 
     private fun setData(weatherData: Weather) {
         binding.cityName.text = weatherData.city.name
-        binding.cityCoordinates.text = String.format("шир./дол.: %s / %s", weatherData.city.lat, weatherData.city.lon)
+        binding.cityCoordinates.text = String.format(getString(R.string.city_coordinates), weatherData.city.lat, weatherData.city.lon)
         binding.temperatureValue.text = weatherData.temperature.toString()
         binding.feelsLikeValue.text = weatherData.feelsLike.toString()
     }
