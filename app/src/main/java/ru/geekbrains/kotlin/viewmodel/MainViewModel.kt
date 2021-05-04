@@ -5,7 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
 
-class MainViewModel(private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()) : ViewModel() {
+import ru.geekbrains.kotlin.model.Repository
+import ru.geekbrains.kotlin.model.RepositoryImpl
+
+class MainViewModel(
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
+    private val repositoryImpl: Repository = RepositoryImpl()
+) : ViewModel() {
 
     fun getLiveData(): LiveData<AppState> {
         return liveDataToObserve
@@ -20,7 +26,7 @@ class MainViewModel(private val liveDataToObserve: MutableLiveData<AppState> = M
         // имитация запроса к БД
         Thread {
             sleep(3000)
-            liveDataToObserve.postValue(AppState.Success(Any()))
+            liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorage()))
         }.start()
     }
 }
