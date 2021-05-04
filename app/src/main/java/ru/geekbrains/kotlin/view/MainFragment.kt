@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 
-import ru.geekbrains.kotlin.R
 import ru.geekbrains.kotlin.databinding.MainFragmentBinding
+import ru.geekbrains.kotlin.model.Weather
 import ru.geekbrains.kotlin.viewmodel.AppState
 import ru.geekbrains.kotlin.viewmodel.MainViewModel
 
@@ -50,17 +50,28 @@ class MainFragment : Fragment() {
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Loading -> {
+                binding.loadingLayout.visibility = View.VISIBLE // отображаем прогрессбар
                 Toast.makeText(context, "Загрузка данных.", Toast.LENGTH_LONG).show()
             }
             is AppState.Success -> {
+                binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
                 val weatherData = appState.weatherData
+                setData(weatherData)
                 Toast.makeText(context, "Даннные загружены.", Toast.LENGTH_LONG).show()
             }
             is AppState.Error -> {
+                binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
                 Toast.makeText(context, "Сбой при загрузке данных.", Toast.LENGTH_LONG).show()
                 //viewModel.getWeather()
             }
         }
+    }
+
+    private fun setData(weatherData: Weather) {
+        binding.cityName.text = weatherData.city.name
+        binding.cityCoordinates.text = String.format("шир./дол.: %s / %s", weatherData.city.lat, weatherData.city.lon)
+        binding.temperatureValue.text = weatherData.temperature.toString()
+        binding.feelsLikeValue.text = weatherData.feelsLike.toString()
     }
 
     override fun onDestroyView() {
