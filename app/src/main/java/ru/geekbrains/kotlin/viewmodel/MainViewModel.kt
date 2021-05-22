@@ -3,6 +3,7 @@ package ru.geekbrains.kotlin.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.geekbrains.kotlin.model.LoadingException
 import java.lang.Thread.sleep
 
 import ru.geekbrains.kotlin.model.LoadingException
